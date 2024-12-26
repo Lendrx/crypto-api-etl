@@ -2,6 +2,8 @@
 
 Projekt zur Visualisierung von Kryptowährungsdaten mit Python-Backend und Next.js Frontend.
 
+![plot](./directory_1/directory_2/.../directory_n/plot.png)
+
 ## Projektübersicht
 
 Das Projekt bietet eine moderne Webanwendung zur Analyse und Visualisierung von Kryptowährungsdaten. Es kombiniert eine Python-basierte ETL-Pipeline für die Datenverarbeitung mit einem reaktiven Next.js Frontend für die Darstellung.

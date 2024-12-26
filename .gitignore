@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+.ipynb_checkpoints
+
+# Next.js
+.next/
+node_modules/
+npm-debug.log*
+
+# Data
+data/raw/
+data/processed/
+*.csv
+*.xlsx
+*.db
+
+# System
+.DS_Store
+.vscode/
+.idea/
+
+# Environment
+.env*
+!.env.example

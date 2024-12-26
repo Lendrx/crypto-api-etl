@@ -2,7 +2,7 @@
 
 Projekt zur Visualisierung von Kryptowährungsdaten mit Python-Backend und Next.js Frontend.
 
-![plot](./directory_1/directory_2/.../directory_n/plot.png)
+![plot](crypto-viz/public/screenshots/CryptoDashboard.png)
 
 ## Projektübersicht
 

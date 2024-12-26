@@ -1,6 +1,7 @@
 # Crypto Dashboard
 
 Projekt zur Visualisierung von Kryptowährungsdaten mit Python-Backend und Next.js Frontend.
+**Bitcoin vs. Ethereum**
 
 ![Visualisierung](crypto-viz/public/screenshots/CryptoDashboard.png)
 

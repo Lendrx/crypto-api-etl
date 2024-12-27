@@ -1,178 +1,174 @@
-'use client'
-import { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { Clock } from 'lucide-react';
 
 const CryptoDashboard = () => {
-  const [data] = useState([
-    {
-      "Name": "Bitcoin",
-      "Symbol": "BTC",
-      "Preis (USD)": 66584.23,
-      "Marktkapitalisierung (USD)": 1312547896541.25,
-      "Volumen 24h (USD)": 28965412365.45,
-      "Änderung 24h (%)": 2.34
-    },
-    {
-      "Name": "Ethereum",
-      "Symbol": "ETH",
-      "Preis (USD)": 3456.78,
-      "Marktkapitalisierung (USD)": 412547896541.25,
-      "Volumen 24h (USD)": 15965412365.45,
-      "Änderung 24h (%)": -1.23
-    }
-  ]);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  
+  const cryptoData = [
+    { name: 'Bitcoin', symbol: 'BTC', price: 66584.23, change24h: 2.34, marketCap: 1310000000000, volume24h: 28970000000 },
+    { name: 'Ethereum', symbol: 'ETH', price: 3456.78, change24h: -1.23, marketCap: 412550000000, volume24h: 15970000000 },
+    { name: 'Binance Coin', symbol: 'BNB', price: 567.89, change24h: 1.45, marketCap: 87650000000, volume24h: 5970000000 },
+    { name: 'Solana', symbol: 'SOL', price: 189.34, change24h: 3.67, marketCap: 82340000000, volume24h: 4570000000 },
+    { name: 'Cardano', symbol: 'ADA', price: 0.89, change24h: -0.56, marketCap: 31240000000, volume24h: 1970000000 }
+  ];
 
-  // Verbesserte Farbpalette für besseren Kontrast
-  const COLORS = ['#2563eb', '#16a34a', '#ea580c', '#9333ea', '#0891b2'];
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
-  const formatValue = (value) => {
-    if (value >= 1e12) return `${(value / 1e12).toFixed(2)}T`;
-    if (value >= 1e9) return `${(value / 1e9).toFixed(2)}B`;
-    if (value >= 1e6) return `${(value / 1e6).toFixed(2)}M`;
-    return value.toFixed(2);
-  };
-
-  const marketCapData = data.map(item => ({
-    name: item.Symbol,
-    value: item['Marktkapitalisierung (USD)']
+  const marketCapData = cryptoData.map(crypto => ({
+    name: crypto.symbol,
+    value: crypto.marketCap
   }));
 
-  const volumeData = data.map(item => ({
-    name: item.Symbol,
-    value: item['Volumen 24h (USD)']
+  const volumeData = cryptoData.map(crypto => ({
+    name: crypto.symbol,
+    value: crypto.volume24h
   }));
+
+  const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#6366F1', '#EC4899'];
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-6 shadow-lg">
-        <h1 className="text-3xl font-bold text-white">Crypto Market Dashboard</h1>
-        <p className="text-blue-100 mt-2">Live Cryptocurrency Market Data</p>
+    <div className="p-6 space-y-6 bg-gray-100">
+      <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-gray-800">Crypto Market Dashboard</h1>
+        <div className="flex items-center gap-2 text-gray-700 bg-blue-50 p-2 rounded-md">
+          <Clock className="w-5 h-5" />
+          <span className="font-medium">{currentTime.toLocaleString()}</span>
+        </div>
       </div>
 
-      {/* Dashboard Content */}
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {/* Market Cap Chart */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Market Capitalization
-            </h2>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={marketCapData}>
-                  <XAxis 
-                    dataKey="name" 
-                    tick={{ fill: '#1f2937' }}
-                  />
-                  <YAxis 
-                    tickFormatter={formatValue}
-                    tick={{ fill: '#1f2937' }}
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#ffffff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                    }}
-                    formatter={(value) => formatValue(value)}
-                  />
-                  <Bar 
-                    dataKey="value" 
-                    fill="#2563eb"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="mb-4">
+            <h2 className="text-xl font-bold text-gray-800">Market Capitalization</h2>
+            <p className="text-sm text-gray-600 mt-1">Total value in billions USD</p>
           </div>
-
-          {/* Volume Chart */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              24h Trading Volume
-            </h2>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={volumeData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    label={(entry) => entry.name}
-                  >
-                    {volumeData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#ffffff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                    }}
-                    formatter={(value) => formatValue(value)}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={marketCapData} margin={{ top: 20, right: 30, left: 40, bottom: 10 }}>
+                <XAxis 
+                  dataKey="name" 
+                  tick={{ fill: '#374151', fontSize: 12 }}
+                  tickLine={{ stroke: '#374151' }}
+                />
+                <YAxis 
+                  tickFormatter={(value) => `$${(value / 1e9)}B`}
+                  domain={[0, Math.ceil(Math.max(...marketCapData.map(d => d.value)) / 1e11) * 1e11]}
+                  ticks={[0, 200e9, 400e9, 600e9, 800e9, 1000e9, 1200e9, 1400e9]}
+                  tick={{ fill: '#374151', fontSize: 12 }}
+                  tickLine={{ stroke: '#374151' }}
+                />
+                <Tooltip 
+                  formatter={(value) => [`$${(value / 1e9).toFixed(2)}B`, "Market Cap"]}
+                  labelFormatter={(label) => `${label}`}
+                  contentStyle={{ 
+                    backgroundColor: '#fff',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    padding: '8px'
+                  }}
+                />
+                <Bar 
+                  dataKey="value" 
+                  fill="#3B82F6" 
+                  name="Market Cap"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Price Table */}
-        <div className="bg-white rounded-xl shadow-md p-6 overflow-x-auto">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">
-            Cryptocurrency Prices
-          </h2>
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="mb-4">
+            <h2 className="text-xl font-bold text-gray-800">24h Trading Volume</h2>
+            <p className="text-sm text-gray-600 mt-1">Distribution of trading volume</p>
+          </div>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={volumeData}
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {volumeData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  formatter={(value) => `$${(value / 1e9).toFixed(2)}B`}
+                  contentStyle={{ 
+                    backgroundColor: '#fff',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    padding: '8px'
+                  }}
+                />
+                <Legend 
+                  align="right"
+                  verticalAlign="middle"
+                  layout="vertical"
+                  formatter={(value, entry) => {
+                    const { payload } = entry;
+                    return `${value} - $${(payload.value / 1e9).toFixed(2)}B`;
+                  }}
+                  wrapperStyle={{
+                    fontSize: '12px',
+                    color: '#374151',
+                    padding: '8px',
+                    backgroundColor: '#f3f4f6',
+                    borderRadius: '6px'
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="mb-4">
+          <h2 className="text-xl font-bold text-gray-800">Cryptocurrency Prices</h2>
+          <p className="text-sm text-gray-600 mt-1">Live price updates and statistics</p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
             <thead>
-              <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Symbol</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Price (USD)</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">24h Change</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Market Cap</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Volume (24h)</th>
+              <tr className="border-b border-gray-200 bg-gray-50">
+                <th className="text-left p-4 text-gray-700 font-bold">Name</th>
+                <th className="text-left p-4 text-gray-700 font-bold">Symbol</th>
+                <th className="text-right p-4 text-gray-700 font-bold">Price (USD)</th>
+                <th className="text-right p-4 text-gray-700 font-bold">24h Change</th>
+                <th className="text-right p-4 text-gray-700 font-bold">Market Cap</th>
+                <th className="text-right p-4 text-gray-700 font-bold">Volume (24h)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {data.map((coin, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm text-gray-800 font-medium">
-                    {coin.Name}
+            <tbody>
+              {cryptoData.map((crypto) => (
+                <tr key={crypto.symbol} className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="p-4 text-gray-800">{crypto.name}</td>
+                  <td className="p-4 text-gray-800 font-medium">{crypto.symbol}</td>
+                  <td className="text-right p-4 text-gray-800 font-medium">
+                    ${crypto.price.toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {coin.Symbol}
+                  <td className={`text-right p-4 font-medium ${crypto.change24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {crypto.change24h > 0 ? '+' : ''}{crypto.change24h}%
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-800">
-                    ${coin['Preis (USD)'].toLocaleString()}
+                  <td className="text-right p-4 text-gray-800">
+                    ${(crypto.marketCap / 1e9).toFixed(2)}B
                   </td>
-                  <td className="px-6 py-4 text-sm">
-                    <div className="flex items-center">
-                      {coin['Änderung 24h (%)'] > 0 ? (
-                        <TrendingUp className="text-emerald-500 w-4 h-4 mr-1" />
-                      ) : (
-                        <TrendingDown className="text-red-500 w-4 h-4 mr-1" />
-                      )}
-                      <span className={coin['Änderung 24h (%)'] > 0 ? 'text-emerald-500' : 'text-red-500'}>
-                        {coin['Änderung 24h (%)'].toFixed(2)}%
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-800">
-                    ${formatValue(coin['Marktkapitalisierung (USD)'])}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-800">
-                    ${formatValue(coin['Volumen 24h (USD)'])}
+                  <td className="text-right p-4 text-gray-800">
+                    ${(crypto.volume24h / 1e9).toFixed(2)}B
                   </td>
                 </tr>
               ))}

@@ -1,10 +1,9 @@
-'use client'
-import CryptoDashboard from '../components/CryptoDashboard'
+import CryptoDashboard from '@/components/CryptoDashboard';
 
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen bg-gray-100">
       <CryptoDashboard />
     </main>
-  )
+  );
 }

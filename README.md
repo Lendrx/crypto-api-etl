@@ -1,7 +1,13 @@
 # Crypto Dashboard
 
 Projekt zur Visualisierung von Kryptowährungsdaten mit Python-Backend und Next.js Frontend.
-**Bitcoin vs. Ethereum**
+
+## Analysierte Kryptowährungen
+- Bitcoin (BTC)
+- Ethereum (ETH)
+- Binance Coin (BNB)
+- Solana (SOL)
+- Cardano (ADA)
 
 ![Visualisierung](crypto-viz/public/screenshots/CryptoDashboard.png)
 
@@ -74,6 +80,12 @@ npm run dev
 ### Datenaktualisierung
 
 Die ETL-Pipeline im `etl_crypto.ipynb` Notebook kann manuell oder automatisiert ausgeführt werden, um neue Daten zu laden. Die Daten werden im `data/` Verzeichnis gespeichert. Jederzeit anpassbar!
+
+### Verfügbare Metriken
+- Marktkapitalisierung
+- 24h Handelsvolumen
+- Aktuelle Preise
+- 24h Preisänderungen
 
 ### Frontend-Entwicklung
 

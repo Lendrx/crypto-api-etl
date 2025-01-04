@@ -1,9 +1,9 @@
-import CryptoDashboard from '@/components/CryptoDashboard';
+import CryptoDashboard from '@/components/dashboard/CryptoDashboard'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main>
       <CryptoDashboard />
     </main>
-  );
+  )
 }

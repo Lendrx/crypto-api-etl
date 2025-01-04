@@ -9,8 +9,11 @@ Projekt zur Visualisierung von Kryptowährungsdaten mit Python-Backend und Next.
 - Solana (SOL)
 - Cardano (ADA)
 
-## **Visualisierung 1:**
+## **1. Teil:**
 ![Visualisierung](crypto-viz/public/screenshots/CryptoDashboard1.png)
+
+## **2. Teil:**
+![Visualisierung](crypto-viz/public/screenshots/CryptoDashboard2.png)
 
 ## Projektübersicht
 
